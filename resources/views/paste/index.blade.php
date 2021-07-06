@@ -16,22 +16,6 @@
                             <textarea class="form-control" id="title" rows="14"></textarea>
                         </div>
                     </div>
-                    <div class="col-sm-6">
-                        <div class="list-group">
-                            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h5 class="mb-1">tittle</h5>
-                                    <small>expiration</small>
-                                </div>
-                                <p class="mb-1">name</p>
-                                <small>che to</small>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="row">
                     <div class="col-sm-3">
                         <div class="form-group">
                             <label for="name">Введите имя</label>
@@ -44,6 +28,7 @@
                                 Анонимно
                             </label>
                         </div>
+                        <button type="button" class="btn btn-primary">Сохранить</button>
                     </div>
                     <div class="col-sm-3">
                         <div class="form-group">
@@ -67,6 +52,9 @@
                             </select>
                         </div>
                     </div>
+                </div>
+                <div class="col-sm-6">
+                    @include('paste.list')
                 </div>
             </div>
         </div>
