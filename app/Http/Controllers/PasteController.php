@@ -45,8 +45,13 @@ class PasteController extends Controller
             );
         }
         Paste::create($inputArray);
-        //сообщением о том какие мы молодыы
-        return redirect()->back()->withSuccess('Пользователь успешно добавлен');
+    }
 
+    public function show()
+    {
+        $list_users = Paste::where('user_id', Auth::user()->id)->paginate(10);
+        return view('paste.show', [
+            'list_users' => $list_users
+        ]);
     }
 }

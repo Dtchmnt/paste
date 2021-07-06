@@ -22,3 +22,4 @@ Route::post('/create', [App\Http\Controllers\PasteController::class, 'create'])-
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/show', [App\Http\Controllers\PasteController::class, 'show'])->name('show');
