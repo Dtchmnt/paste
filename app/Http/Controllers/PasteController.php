@@ -18,8 +18,9 @@ class PasteController extends Controller
 
     public function index()
     {
-        $list_users = Paste::where('user_id', Auth::user()->id)->paginate(10);
 
+
+        $list_users = Paste::where('user_id', Auth::user()->id)->paginate(10);
         $list_post = Paste::orderBy('created_at', 'desc')->paginate(10);
         return view('paste.index', [
             'pastes' => $list_post,
@@ -70,9 +71,13 @@ class PasteController extends Controller
     public function getLink($id)
     {
         $link = Paste::where('link', $id)->get()->first();
+        if ($link->privacy == "3" and $link->user_id != Auth::user()->id) {
+                return 404;
+        } else {
+            return view('paste.show_link', [
+                'link' => $link
+            ]);
+        }
 
-        return view('paste.show_link', [
-            'link' => $link
-        ]);
     }
 }
