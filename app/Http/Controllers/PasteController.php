@@ -8,6 +8,6 @@ class PasteController extends Controller
 {
     public function index()
     {
-        
+        return view('paste.index');
     }
 }
