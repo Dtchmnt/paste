@@ -23,7 +23,7 @@ class CreatePasteTable extends Migration
             $table->tinyInteger('privacy');
             $table->tinyInteger('expiration');
 
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
 
             $table->timestamps();

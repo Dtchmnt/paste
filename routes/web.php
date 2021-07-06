@@ -17,6 +17,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::get('/index', [App\Http\Controllers\PasteController::class, 'index'])->name('index');
+Route::post('/create', [App\Http\Controllers\PasteController::class, 'create'])->name('create');
 
 Auth::routes();
 
