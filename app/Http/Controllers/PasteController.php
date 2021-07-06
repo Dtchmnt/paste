@@ -20,13 +20,26 @@ class PasteController extends Controller
     {
 
 
-        $list_users = Paste::where('user_id', Auth::user()->id)->paginate(10);
-        $list_post = Paste::orderBy('created_at', 'desc')->paginate(10);
-        return view('paste.index', [
-            'pastes' => $list_post,
-            'list_users' => $list_users
-        ]);
+        $auth = Auth::check();
+        if (!$auth) {
+            $list_post = Paste::orderBy('created_at', 'desc')->paginate(10);
+            return view('paste.index', [
+                'pastes' => $list_post,
+            ]);
+        } else {
+            //Вывод паст которые созданы юзером
+            $list_users = Paste::where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->paginate(10);
+            //Вывод паст которые были созданы недавно
+            $list_post = Paste::where('privacy', '!=', 2)->where('privacy', '!=', 1)->orderBy('created_at', 'desc')->paginate(10);
+
+            return view('paste.index', [
+                'pastes' => $list_post,
+                'list_users' => $list_users
+            ]);
+        }
+
     }
+
 
     public function create(Request $request)
     {
@@ -34,7 +47,7 @@ class PasteController extends Controller
         if ($request->change_anon) {
             $inputArray = array(
                 'link' => $this->linkUrl(),
-                'name' => $request['name'],
+                'name' => 'Аноним',
                 'title' => $request['title'],
                 'text' => $request['text'],
                 'privacy' => $request['privacy'],
@@ -71,8 +84,8 @@ class PasteController extends Controller
     public function getLink($id)
     {
         $link = Paste::where('link', $id)->get()->first();
-        if ($link->privacy == "3" and $link->user_id != Auth::user()->id) {
-                return 404;
+        if ($link->privacy == "2" and $link->user_id != Auth::user()->id) {
+            return 404;
         } else {
             return view('paste.show_link', [
                 'link' => $link
