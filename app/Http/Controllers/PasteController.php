@@ -11,9 +11,12 @@ class PasteController extends Controller
 {
     public function index()
     {
+        $list_users = Paste::where('user_id', Auth::user()->id)->get();
+
         $list_post = Paste::orderBy('created_at', 'desc')->paginate(10);
         return view('paste.index', [
-            'pastes' => $list_post
+            'pastes' => $list_post,
+            'list_users' => $list_users
         ]);
     }
 

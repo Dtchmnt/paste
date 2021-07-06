@@ -57,9 +57,15 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-6">
-                    @include('paste.list')
+                <div class="row">
+                    <div class="col-sm-6">
+                        @include('paste.list')
+                    </div>
+                    <div class="col-sm-6">
+                        @include('paste.list_user')
+                    </div>
                 </div>
+
             </div>
         </div>
     </form>
