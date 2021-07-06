@@ -18,6 +18,7 @@ Route::get('/', function () {
 });
 Route::get('/index', [App\Http\Controllers\PasteController::class, 'index'])->name('index');
 Route::post('/create', [App\Http\Controllers\PasteController::class, 'create'])->name('create');
+Route::get('/link/{link}', [App\Http\Controllers\PasteController::class, 'getLink'])->name('getLink');
 
 Auth::routes();
 
