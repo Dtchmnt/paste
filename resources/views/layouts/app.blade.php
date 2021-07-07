@@ -54,6 +54,9 @@
                         @else
 
                             <li class="nav-item">
+                                <a class="nav-link" href="{{ route('index') }}">Главная</a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link" href="{{ route('show') }}">Показать пасты</a>
                             </li>
                             <li class="nav-item dropdown">
