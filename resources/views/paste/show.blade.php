@@ -1,18 +1,71 @@
 @extends('layouts.app')
-@section('title', 'Добавить пасту')
+
+@section('title', 'Все пользователи')
 
 @section('content')
-    @foreach($list_users as $list_user)
-        <div class="list-group">
-            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">{{$list_user->title}}</h5>
-                    <h5 class="mb-1">{{$list_user->text}}</h5>
-                    <small>{{$list_user->expiration}}</small>
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">
+                        Все пользователи
+                    </h1>
                 </div>
-                <p class="mb-1">{{$list_user->name}}</p>
-                <small>che to</small>
-            </a>
+            </div>
+
         </div>
-    @endforeach
+    </div>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="card">
+                <div class="card-body p-0">
+                    <table class="table table-striped projects">
+                        <thead>
+                        <tr>
+                            <th style="width: 10%">
+                                Имя
+                            </th>
+                            <th style="width: 10%">
+                                Название
+                            </th>
+                            <th style="width: 30%">
+                                Паста
+                            </th>
+                            <th style="width: 30%">
+                                Ссылка
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($list_users as $list_user)
+                            <tr>
+                                <td>
+                                    {{$list_user['name']}}
+                                </td>
+                                <td>
+                                    {{$list_user['title']}}
+                                </td>
+                                <td>
+                                    {{$list_user['text']}}
+                                </td>
+
+                                <td class="project-actions">
+                                    <a class="btn btn-primary btn-sm" href="/link/{{$list_user['link']}}">
+                                        <i class="fas fa-eye">
+                                        </i>
+                                        Посмотреть пасту
+                                    </a>
+                                </td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.card-body -->
+            </div>
+            {{ $list_users->links() }}
+        </div>
+
+    </section>
+
 @endsection

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('title', 'Добавить пасту')
-
 @section('content')
+    @if(!empty($link))
         <div class="list-group">
             <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
                 <div class="d-flex w-100 justify-content-between">
@@ -13,4 +13,5 @@
                 <small>che to</small>
             </a>
         </div>
+    @endif
 @endsection

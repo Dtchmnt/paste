@@ -52,6 +52,14 @@
                                 </option>
                             </select>
                         </div>
+                        <div class="form-group">
+                            <label for="syntax">Syntax</label>
+                            <select class="form-control" name="syntax" id="syntax">
+                                <option value="" selected="selected">None</option>
+                                <option value="PHP">php</option>
+                                <option value="JS">js</option>
+                            </select>
+                        </div>
                         <div class="ml-5 mt-4">
                             <button type="submit" name="create" class="btn btn-primary">Добавить</button>
                         </div>
@@ -59,9 +67,11 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-6">
+                        <label for="expiration">Последние 10 новых постов</label>
                         @include('paste.list')
                     </div>
                     <div class="col-sm-6">
+                        <label for="expiration">Последние 10 новых постов авторизованого пользователя</label>
                         @include('paste.list_user')
                     </div>
                 </div>

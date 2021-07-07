@@ -3,12 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\Paste;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class PasteController extends Controller
 {
+    protected $userPaste;
+
+    public function __construct(Paste $userPaste)
+    {
+        $this->userPaste = $userPaste;
+    }
 
     private function linkUrl()
     {
@@ -18,32 +25,33 @@ class PasteController extends Controller
 
     public function index()
     {
-
-
         $auth = Auth::check();
         if (!$auth) {
-            $list_post = Paste::orderBy('created_at', 'desc')->paginate(10);
+            $pastes = Paste::where('privacy', '!=', 2)->where('privacy', '!=', 1)->orderBy('created_at', 'desc')->paginate(10);
+
+            $list_post = $this->userPaste->expiration($pastes);
             return view('paste.index', [
                 'pastes' => $list_post,
             ]);
         } else {
-            //Вывод паст которые созданы юзером
-            $list_users = Paste::where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->paginate(10);
-            //Вывод паст которые были созданы недавно
-            $list_post = Paste::where('privacy', '!=', 2)->where('privacy', '!=', 1)->orderBy('created_at', 'desc')->paginate(10);
 
+            //Вывод паст которые созданы юзером
+            $paste = Paste::where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->paginate(10);
+            //Вывод паст которые были созданы недавно
+            $pastes = Paste::where('privacy', '!=', 2)->where('privacy', '!=', 1)->orderBy('created_at', 'desc')->paginate(10);
+
+            $list_post = $this->userPaste->expiration($pastes);
+
+            $list_users = $this->userPaste->expiration($paste);
             return view('paste.index', [
                 'pastes' => $list_post,
                 'list_users' => $list_users
             ]);
         }
-
     }
-
 
     public function create(Request $request)
     {
-
         if ($request->change_anon) {
             $inputArray = array(
                 'link' => $this->linkUrl(),
@@ -75,7 +83,8 @@ class PasteController extends Controller
 
     public function show()
     {
-        $list_users = Paste::where('user_id', Auth::user()->id)->paginate(10);
+        $paste = Paste::where('user_id', Auth::user()->id)->paginate(10);
+        $list_users = $this->userPaste->expiration($paste);
         return view('paste.show', [
             'list_users' => $list_users
         ]);
@@ -84,13 +93,8 @@ class PasteController extends Controller
     public function getLink($id)
     {
         $link = Paste::where('link', $id)->get()->first();
-        if ($link->privacy == "2" and $link->user_id != Auth::user()->id) {
-            return 404;
-        } else {
-            return view('paste.show_link', [
-                'link' => $link
-            ]);
-        }
-
+        return view('paste.show_link', [
+            'link' => $link
+        ]);
     }
 }
