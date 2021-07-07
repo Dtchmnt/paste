@@ -1,6 +1,16 @@
+## Quick Start
+#### Install Dependencies
+```sh
+$ composer install
 
-## composer install
+# Run Migrations
+$ php artisan migrate
 
-## npm install && npm run dev
+# Add virtual host if using Apache
 
-### php artisan key:generate
+# If you get an error about an encryption key
+$ php artisan key:generate
+
+# Install JS Dependencies
+$ npm install && npm run dev
+```
