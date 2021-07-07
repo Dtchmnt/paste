@@ -22,7 +22,7 @@ class CreatePasteTable extends Migration
             $table->text('text');
             $table->tinyInteger('privacy');
             $table->tinyInteger('expiration');
-            $table->string('syntax');
+            $table->string('syntax')->nullable();
 
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
