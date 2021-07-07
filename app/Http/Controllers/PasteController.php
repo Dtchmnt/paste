@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class PasteController extends Controller
 {
@@ -52,6 +53,16 @@ class PasteController extends Controller
 
     public function create(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|max:100',
+            'title' => 'required|max:100',
+            'text' => 'required',
+            'privacy' => 'required',
+            'expiration' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return [400, 'Проверьте правильность ввода'];
+        }
         if ($request->change_anon) {
             $inputArray = array(
                 'link' => $this->linkUrl(),
