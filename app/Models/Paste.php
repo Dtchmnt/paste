@@ -26,8 +26,12 @@ class Paste extends Model
     {
         return $this->belongsTo(User::class);
     }
-    public function expiration($pastes)
+    public function expiration($pastes, $isList)
     {
+        if(!$isList)
+        {
+            $pastes = [$pastes];
+        }
         foreach ($pastes as $key => $paste)
         {
             $time_ago = time() - strtotime($paste->created_at);

@@ -29,7 +29,7 @@ class PasteController extends Controller
         if (!$auth) {
             $pastes = Paste::where('privacy', '!=', 2)->where('privacy', '!=', 1)->orderBy('created_at', 'desc')->paginate(10);
 
-            $list_post = $this->userPaste->expiration($pastes);
+            $list_post = $this->userPaste->expiration($pastes, true);
             return view('paste.index', [
                 'pastes' => $list_post,
             ]);
@@ -40,9 +40,9 @@ class PasteController extends Controller
             //Вывод паст которые были созданы недавно
             $pastes = Paste::where('privacy', '!=', 2)->where('privacy', '!=', 1)->orderBy('created_at', 'desc')->paginate(10);
 
-            $list_post = $this->userPaste->expiration($pastes);
+            $list_post = $this->userPaste->expiration($pastes, true);
 
-            $list_users = $this->userPaste->expiration($paste);
+            $list_users = $this->userPaste->expiration($paste, true);
             return view('paste.index', [
                 'pastes' => $list_post,
                 'list_users' => $list_users
@@ -86,7 +86,7 @@ class PasteController extends Controller
     public function show()
     {
         $paste = Paste::where('user_id', Auth::user()->id)->paginate(10);
-        $list_users = $this->userPaste->expiration($paste);
+        $list_users = $this->userPaste->expiration($paste, true);
         return view('paste.show', [
             'list_users' => $list_users
         ]);
@@ -94,9 +94,13 @@ class PasteController extends Controller
 
     public function getLink($id)
     {
-        $link = Paste::where('link', $id)->get()->first();
-        return view('paste.show_link', [
-            'link' => $link
-        ]);
+        $paste = Paste::where('link', $id)->get()->first();
+        if ($paste->privacy == "2" and $paste->user_id != Auth::user()->id) {
+            return [404, 'Доступ ограничен'];
+        } if($link = $this->userPaste->expiration($paste, false)) {
+            return view('paste.show_link', [
+                'link' => $link
+            ]);
+        }  return [404, 'Доступ к ссылке истек'];
     }
 }
