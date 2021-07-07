@@ -56,8 +56,8 @@
                             <label for="syntax">Syntax</label>
                             <select class="form-control" name="syntax" id="syntax">
                                 <option value="" selected="selected">None</option>
-                                <option value="PHP">php</option>
-                                <option value="JS">js</option>
+                                <option value="php">php</option>
+                                <option value="javascript">javascript</option>
                             </select>
                         </div>
                         <div class="ml-5 mt-4">

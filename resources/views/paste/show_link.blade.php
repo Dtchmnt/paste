@@ -2,16 +2,35 @@
 @section('title', 'Добавить пасту')
 @section('content')
     @if(!empty($link))
-        <div class="list-group">
-            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">{{$link->title}}</h5>
-                    <h5 class="mb-1">{{$link->text}}</h5>
-                    <small>{{$link->expiration}}</small>
+        <link rel="stylesheet"
+              href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.0.1/styles/default.min.css">
+        <div class="container">
+            <div class="card">
+                <div class="card-header"><h3>{{ $link->title }}</h3></div>
+
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <ul class="list-inline">
+                                <li>Created by: <i>{{ $link->name }}</i></li>
+                                <li>Created at: <i>{{ $link->created_at }}</i></li>
+                                <li>Syntax: <i> {{ is_null($link->syntax) ? "Plain-text" : $link->syntax }} </i></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <pre><code
+                                    class="{{ is_null($link->syntax) ? "nohighlight" : $link->syntax }}">{{ $link->text }}</code></pre>
+                        </div>
+                    </div>
                 </div>
-                <p class="mb-1">{{$link->name}}</p>
-                <small>che to</small>
-            </a>
+            </div>
         </div>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.0.1/highlight.min.js"></script>
+        <script>
+            hljs.initHighlightingOnLoad();
+        </script>
     @endif
 @endsection

@@ -18,6 +18,7 @@ class Paste extends Model
         'text',
         'privacy',
         'expiration',
+        'syntax',
         'user_id',
     ];
 

@@ -4,5 +4,7 @@
 @section('content')
     <form>
              <a href="/link/{{$link}}">{{Request::root().'/link/'.$link}}</a>
+
+
     </form>
 @endsection

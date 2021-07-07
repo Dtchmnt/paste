@@ -60,6 +60,7 @@ class PasteController extends Controller
                 'text' => $request['text'],
                 'privacy' => $request['privacy'],
                 'expiration' => $request['expiration'],
+                'syntax' => $request['syntax'],
                 'user_id' => $request['user_id'] = null,
             );
         } else {
@@ -70,6 +71,7 @@ class PasteController extends Controller
                 'text' => $request['text'],
                 'privacy' => $request['privacy'],
                 'expiration' => $request['expiration'],
+                'syntax' => $request['syntax'],
                 'user_id' => $request['user_id'] = Auth::check() ? Auth::user()->id : null
             );
         }
