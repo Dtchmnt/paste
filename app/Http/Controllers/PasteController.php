@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class PasteController extends Controller
 {
@@ -20,8 +21,8 @@ class PasteController extends Controller
 
     private function linkUrl()
     {
-        $bytes = random_bytes(3);
-        return bin2hex($bytes);
+        $createRandomLink = str::random(6);
+        return $createRandomLink;
     }
 
     public function index()
@@ -61,7 +62,7 @@ class PasteController extends Controller
             'expiration' => 'required',
         ]);
         if ($validator->fails()) {
-            return [400, 'Проверьте правильность ввода'];
+            return response()->json('Проверьте правильность ввода', 403);
         }
         if ($request->change_anon) {
             $inputArray = array(
@@ -107,11 +108,13 @@ class PasteController extends Controller
     {
         $paste = Paste::where('link', $id)->get()->first();
         if ($paste->privacy == "2" and $paste->user_id != Auth::user()->id) {
-            return [404, 'Доступ ограничен'];
-        } if($link = $this->userPaste->expiration($paste, false)) {
+            return response()->json('Доступ ограничен', 404);
+        }
+        if ($link = $this->userPaste->expiration($paste, false)) {
             return view('paste.show_link', [
                 'link' => $link
             ]);
-        }  return [404, 'Доступ к ссылке истек'];
+        }
+        return response()->json('Доступ к ссылке истек', 404);
     }
 }
